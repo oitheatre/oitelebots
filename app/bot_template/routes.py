@@ -1,5 +1,5 @@
-from app.bot_template import bot_template
+from app.bot_template import bp
 
-@bot_template.route('/')
+@bp.route('/')
 def index():
     return 'blueprint hellooo'

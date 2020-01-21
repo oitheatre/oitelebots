@@ -10,8 +10,10 @@ class FlaskConfig():
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class TgBotConfig():
-    def __init__(self, bot_name):
+    def __init__(self):
+        self.BOT_NAME = os.environ.get('BOT_NAME') or 'bot_template'
         with open('bot_settings.yml') as f:
             bot_settings = yaml.safe_load(f)
 
-            self.BOT_TOKEN = bot_settings[bot_name]['BOT_TOKEN']
+            self.BOT_TGNAME = bot_settings[self.BOT_NAME]['BOT_TGNAME']
+            self.BOT_TOKEN = bot_settings[self.BOT_NAME]['BOT_TOKEN']

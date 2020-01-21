@@ -5,3 +5,4 @@ flask-migrate
 flask-login
 python-telegram-bot
 pyyaml
+python-dotenv

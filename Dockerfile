@@ -1,3 +1,4 @@
+# export FLASK_SKIP_DOTENV=1
 FROM python:3.7-slim-buster
 
 WORKDIR /usr/src/app
