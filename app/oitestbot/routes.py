@@ -1,4 +1,4 @@
-from app.bot_template import bp
+from app.oitestbot import bp
 
 @bp.route('/')
 def index():

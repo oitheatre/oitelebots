@@ -24,15 +24,15 @@ class BaseBot:
     def __init__(self):
         tgConfig = TgBotConfig()
         self.TOKEN = tgConfig.BOT_TOKEN
-        self.BOT_TGNAME = tgConfig.BOT_TGNAME
+        self.BOT_NAME = tgConfig.BOT_NAME
         self.DEBUG_MODE = tgConfig.DEBUG_MODE
 
         # Start the Bot
-        port = 8443
-        url = 'https://telegram.oitheatre.ru:{}/{}'.format(port, self.TOKEN)
+        port = tgConfig.BOT_PORT
+        url = '{0}:{1}/{2}'.format(tgConfig.HOST_URL, port, self.TOKEN)
 
         if not self.DEBUG_MODE or not is_port_in_use(port):  # yes, this is weird; for FLASK_ENV development mode
-            logger.info('Starting bot {0}{1}'.format(self.BOT_TGNAME, ' in development mode' if self.DEBUG_MODE else ''))
+            logger.info('Starting bot {0}{1}'.format(self.BOT_NAME, ' in development mode' if self.DEBUG_MODE else ''))
             updater = Updater(self.TOKEN, use_context=True)
 
             # Get the dispatcher to register handlers
@@ -51,5 +51,5 @@ class BaseBot:
             self.dp = dp
             self.updater = updater
 
-            logger.info('running bot {0} on {1} port, with TOKEN {2}, webhook url {3}'.format(self.BOT_TGNAME, port, self.TOKEN, url))
+            logger.info('running bot {0} on {1} port, with TOKEN {2}, webhook url {3}'.format(self.BOT_NAME, port, self.TOKEN, url))
             logger.info('you can check your webhook status here https://api.telegram.org/bot{0}/getWebhookInfo'.format(self.TOKEN))
