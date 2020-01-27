@@ -5,14 +5,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 
-app = Flask(__name__)
-app.config.from_object(FlaskConfig)
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-login = LoginManager(app)
-
-from app import routes, models
-
 
 def register_bot(bot_name):
     try:
@@ -25,4 +17,14 @@ def register_bot(bot_name):
         print('Error: ', err)
 
 
-register_bot(TgBotConfig().BOT_NAME)
+bot_config = TgBotConfig()
+
+app = Flask(__name__)
+app.config.from_object(FlaskConfig)
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+login = LoginManager(app)
+
+register_bot(bot_config.BOT_NAME)
+
+from app import routes, models
