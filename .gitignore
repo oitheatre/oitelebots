@@ -5,3 +5,4 @@ bot_settings.yml
 __pycache__
 .idea
 nginx
+venv
