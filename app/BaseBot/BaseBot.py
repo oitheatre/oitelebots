@@ -1,3 +1,4 @@
+import abc
 import logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
@@ -6,21 +7,13 @@ logger = logging.getLogger(__name__)
 from telegram.ext import (Updater, CommandHandler)
 from config import TgBotConfig
 
-def error(update, context):
-    """Log Errors caused by Updates."""
-    logger.warning('Update "%s" caused error "%s"', update, context.error)
-
-def start(update, context):
-    """Send a message when the command /start is issued."""
-    update.message.reply_text('Hi!')
-
 def is_port_in_use(port):
     import socket
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         return s.connect_ex(('localhost', port)) == 0
 
 
-class BaseBot:
+class BaseBot(metaclass=abc.ABCMeta):
     def __init__(self):
         tgConfig = TgBotConfig()
         self.TOKEN = tgConfig.BOT_TOKEN
@@ -39,9 +32,9 @@ class BaseBot:
             dp = updater.dispatcher
 
             # log all errors
-            dp.add_error_handler(error)
+            dp.add_error_handler(self.error)
 
-            dp.add_handler(CommandHandler("start", start))
+            dp.add_handler(CommandHandler("start", self.start))
 
             updater.start_webhook(listen='0.0.0.0',
                                   port=port,
@@ -53,3 +46,16 @@ class BaseBot:
 
             logger.info('running bot {0} on {1} port, with TOKEN {2}, webhook url {3}'.format(self.BOT_NAME, port, self.TOKEN, url))
             logger.info('you can check your webhook status here https://api.telegram.org/bot{0}/getWebhookInfo'.format(self.TOKEN))
+
+            if self.DEBUG_MODE:
+                logger.info('do not forget to forward ports in development mode: ssh -i /path/to/private.key -R {0}:127.0.0.1:{1} -N tgbot@{2}'.format(tgConfig.BOT_DEBUG_PORT, tgConfig.BOT_PORT, tgConfig.HOST_URL))
+
+    def error(self, update, context):
+        """Log Errors caused by Updates."""
+        logger.warning('Update "%s" caused error "%s"', update, context.error)
+
+    @abc.abstractmethod
+    def start(self, update, context):
+        """Send a message when the command /start is issued."""
+        update.message.reply_text('You have to change this text for yours')
+
