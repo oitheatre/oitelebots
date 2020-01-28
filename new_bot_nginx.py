@@ -16,18 +16,24 @@ def subs_parameter(line, bot_pattern):
 with open('bot_settings.yml', 'r') as sf:
     bot_settings = yaml.safe_load(sf)
 
+HOST_URL = bot_settings['HOST_URL']
 PRODUCTION_PORT = bot_settings['PRODUCTION_PORT']
 DEV_PORT = bot_settings['DEV_PORT']
+FLASK_PORT = bot_settings['FLASK_PORT']
 
+bot_settings.pop('HOST_URL', None)
 bot_settings.pop('PRODUCTION_PORT', None)
 bot_settings.pop('DEV_PORT', None)
+bot_settings.pop('FLASK_PORT', None)
 
 bot_patterns = []
 for key, settings in bot_settings.items():
     bot_setting = {}
     bot_setting['BOT_NAME'] = key
+    bot_setting['HOST_URL'] = HOST_URL
     bot_setting['PRODUCTION_PORT'] = PRODUCTION_PORT
     bot_setting['DEV_PORT'] = DEV_PORT
+    bot_setting['FLASK_PORT'] = FLASK_PORT
     for skey, setting in settings.items():
         bot_setting[skey] = setting
     bot_setting['DEV_BOT_PORT'] = DEV_PORT + bot_setting['NUMBER_ID']
@@ -59,7 +65,3 @@ for line in template_config:
 
 for line in new_config:
     print(line)
-
-with open('./data/nginx/telegram.conf', 'w') as f:
-    for line in new_config:
-        f.write("{}\n".format(line))

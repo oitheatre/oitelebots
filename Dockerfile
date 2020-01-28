@@ -8,5 +8,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-#ENTRYPOINT [ "/usr/local/bin/python", "bot.py" ]
-#CMD [ "first" ]
+ENTRYPOINT ["/usr/local/bin/flask", "run", "-h", "0.0.0.0"]

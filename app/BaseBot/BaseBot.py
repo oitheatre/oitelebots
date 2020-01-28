@@ -29,7 +29,7 @@ class BaseBot:
 
         # Start the Bot
         port = tgConfig.BOT_PORT
-        url = '{0}:{1}/{2}'.format(tgConfig.HOST_URL, port, self.TOKEN)
+        url = 'https://{0}:{1}/{2}'.format(tgConfig.HOST_URL, port, self.TOKEN)
 
         if not self.DEBUG_MODE or not is_port_in_use(port):  # yes, this is weird; for FLASK_ENV development mode
             logger.info('Starting bot {0}{1}'.format(self.BOT_NAME, ' in development mode' if self.DEBUG_MODE else ''))
@@ -43,7 +43,7 @@ class BaseBot:
 
             dp.add_handler(CommandHandler("start", start))
 
-            updater.start_webhook(listen='127.0.0.1',
+            updater.start_webhook(listen='0.0.0.0',
                                   port=port,
                                   url_path=self.TOKEN)
             updater.bot.set_webhook(url=url, certificate=open('cert.pem', 'rb'))

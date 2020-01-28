@@ -4,3 +4,4 @@ bot_settings.yml
 *.pyc
 __pycache__
 .idea
+nginx
