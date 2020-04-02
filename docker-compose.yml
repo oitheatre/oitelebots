@@ -6,8 +6,8 @@ version: "3"
 networks:
   telegramnet:
     driver: bridge
-        #dbnet:
-        #driver: bridge
+      #dbnet:
+      #driver: bridge
 
 
 services:
@@ -36,6 +36,17 @@ services:
       FLASK_ENV: production
     image: oitheatre/pytgflask
     container_name: oitestbot
+    networks:
+      - telegramnet
+
+  oitheatrebot:
+    build:
+      context: .
+    environment:
+      BOT_NAME: oitheatrebot
+      FLASK_ENV: production
+    image: oitheatre/pytgflask
+    container_name: oitheatrebot
     networks:
       - telegramnet
 
