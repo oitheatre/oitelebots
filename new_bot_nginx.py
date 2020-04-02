@@ -37,6 +37,7 @@ for key, settings in bot_settings.items():
     for skey, setting in settings.items():
         bot_setting[skey] = setting
     bot_setting['DEV_BOT_PORT'] = DEV_PORT + bot_setting['NUMBER_ID']
+    bot_setting['DEV_FLASK_PORT'] = FLASK_PORT + bot_setting['NUMBER_ID']
     bot_patterns.append(bot_setting)
 
 with open('nginx_bot_template.conf') as tf:

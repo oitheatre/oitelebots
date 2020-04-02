@@ -1,6 +1,9 @@
 version: "3"
 
-#volumes:
+volumes:
+  wikijs_config_letsencrypt:
+    external: true
+
 #db-data:
 
 networks:
@@ -18,7 +21,8 @@ services:
     restart: unless-stopped
     volumes:
       - ./nginx:/etc/nginx/conf.d:ro
-      - .:/etc/letsencrypt/live/telegram.oitheatre.ru:ro
+      - ./telegram_ssl:/etc/telegram_ssl:ro
+      - wikijs_config_letsencrypt:/etc/letsencrypt:ro
     ports:
       - "5000:5000"
       - "8443:8443"
@@ -27,6 +31,8 @@ services:
       - telegramnet
     depends_on:
       - oitestbot
+      - oitheatrebot
+      - oimailbot
 
   oitestbot:
     build:

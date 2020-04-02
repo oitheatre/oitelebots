@@ -39,7 +39,7 @@ class BaseBot(metaclass=abc.ABCMeta):
             updater.start_webhook(listen='0.0.0.0',
                                   port=port,
                                   url_path=self.TOKEN)
-            updater.bot.set_webhook(url=url, certificate=open('cert.pem', 'rb'))
+            updater.bot.set_webhook(url=url, certificate=open('telegram_ssl/cert.pem', 'rb'))
 
             self.dp = dp
             self.updater = updater
