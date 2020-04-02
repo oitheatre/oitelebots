@@ -22,6 +22,9 @@ class TgBotConfig:
 
             self.HOST_URL = bot_settings['HOST_URL']
             self.BOT_PORT = bot_settings['DEV_PORT'] if self.DEBUG_MODE else bot_settings['PRODUCTION_PORT']
+
+            if not self.BOT_NAME in bot_settings:
+                raise KeyError(f"Your bot_settings file don't have info about {self.BOT_NAME}")
             self.BOT_TOKEN = bot_settings[self.BOT_NAME]['BOT_TOKEN']
 
             if self.DEBUG_MODE:

@@ -13,4 +13,4 @@ class Bot(BaseBot):
 
     def start(self, update, context):
         """Send a message when the command /start is issued."""
-        update.message.reply_text('Hi! I am a bot for oitheatre! Coming soon...')
+        update.message.reply_text('Hi! I am a bot for oitheatre! Lets go to work!')
